@@ -10,9 +10,9 @@ Rules:
 
 ## Priority Queue
 
-- [ ] `bootstrap-package-foundation`
-- [ ] `implement-prompt-api-core`
-- [ ] `harden-prompt-resolution`
+- [x] `bootstrap-package-foundation`
+- [x] `implement-prompt-api-core`
+- [x] `harden-prompt-resolution`
 - [ ] `prepare-first-release`
 - [ ] `design-xml-and-llm-utilities` (deferred)
 
@@ -22,18 +22,18 @@ Rules:
 
 Deliverables:
 
-- [ ] Create package skeleton with `pyproject.toml` and `src/pastr/`.
-- [ ] Add explicit public exports in `pastr.__init__`.
-- [ ] Configure strict pyright and pytest for Python 3.12.
-- [ ] Configure pytest `integration` marker and split test directories (`tests/unit`, `tests/integration`).
-- [ ] Add README quick start for `load_prompt` and prompt directory configuration.
+- [x] Create package skeleton with `pyproject.toml` and `src/pastr/`.
+- [x] Add explicit public exports in `pastr.__init__`.
+- [x] Configure strict pyright and pytest for Python 3.12.
+- [x] Configure pytest `integration` marker and split test directories (`tests/unit`, `tests/integration`).
+- [x] Add README quick start for `load_prompt` and prompt directory configuration.
 
 Gates:
 
-- [ ] `uv run pyright` passes.
-- [ ] `uv run pytest -q tests/unit` passes.
-- [ ] `uv run pytest -q -m integration tests/integration` passes.
-- [ ] Package imports succeed from editable install.
+- [x] `uv run pyright` passes.
+- [x] `uv run pytest -q tests/unit` passes.
+- [x] `uv run pytest -q -m integration tests/integration` passes.
+- [x] Package imports succeed from editable install.
 
 Data flow:
 
@@ -45,22 +45,22 @@ Data flow:
 
 Deliverables:
 
-- [ ] Ship package namespace as `pastr`.
-- [ ] Implement `load_prompt_structure`.
-- [ ] Implement `substitute_code_placeholders`.
-- [ ] Implement `load_prompt`.
-- [ ] Implement `set_prompt_directory`.
-- [ ] Keep `load_prompt` signature: `load_prompt(tag: str, code_replacements: dict[str, str] = {}, *, prompt_root: Path | str | None = None) -> str`.
-- [ ] Preserve nested `FROM_PROMPT` and `FROM_CODE` behavior.
-- [ ] Keep dependencies minimal and prompt-focused.
+- [x] Ship package namespace as `pastr`.
+- [x] Implement `load_prompt_structure`.
+- [x] Implement `substitute_code_placeholders`.
+- [x] Implement `load_prompt`.
+- [x] Implement `set_prompt_directory`.
+- [x] Keep `load_prompt` signature: `load_prompt(tag: str, code_replacements: dict[str, str] = {}, *, prompt_root: Path | str | None = None) -> str`.
+- [x] Preserve nested `FROM_PROMPT` and `FROM_CODE` behavior.
+- [x] Keep dependencies minimal and prompt-focused.
 
 Gates:
 
-- [ ] Prompt-loading APIs are exported from `pastr.__init__`.
-- [ ] Unit tests pass for nested prompt expansion and code substitution.
-- [ ] Integration tests pass for end-to-end prompt loading from real prompt files.
-- [ ] Public API signatures match the project contract.
-- [ ] Prompt API behavior is stable.
+- [x] Prompt-loading APIs are exported from `pastr.__init__`.
+- [x] Unit tests pass for nested prompt expansion and code substitution.
+- [x] Integration tests pass for end-to-end prompt loading from real prompt files.
+- [x] Public API signatures match the project contract.
+- [x] Prompt API behavior is stable.
 
 Data flow:
 
@@ -74,23 +74,23 @@ Data flow:
 
 Deliverables:
 
-- [ ] Implement deterministic prompt root resolution order.
-- [ ] Enforce `prompt_root` argument precedence.
-- [ ] Enforce `set_prompt_directory` precedence when no `prompt_root` argument is provided.
-- [ ] Enforce auto-discovery fallback by walking upward to first parent containing `.git` when no explicit path is provided.
-- [ ] Resolve default prompt root to `<repo_root>/prompts`.
-- [ ] Support optional fallback `<repo_root>/pastr` when `<repo_root>/prompts` is absent.
-- [ ] Add clear failures for missing prompt root and missing prompt files.
-- [ ] Add cycle detection for circular prompt references.
-- [ ] Add explicit tests for resolution precedence and error behavior.
+- [x] Implement deterministic prompt root resolution order.
+- [x] Enforce `prompt_root` argument precedence.
+- [x] Enforce `set_prompt_directory` precedence when no `prompt_root` argument is provided.
+- [x] Enforce auto-discovery fallback by walking upward to first parent containing `.git` when no explicit path is provided.
+- [x] Resolve default prompt root to `<repo_root>/prompts`.
+- [x] Support optional fallback `<repo_root>/pastr` when `<repo_root>/prompts` is absent.
+- [x] Add clear failures for missing prompt root and missing prompt files.
+- [x] Add cycle detection for circular prompt references.
+- [x] Add explicit tests for resolution precedence and error behavior.
 
 Gates:
 
-- [ ] Tests verify `prompt_root` argument precedence over global override.
-- [ ] Tests verify global override precedence over auto-discovery.
-- [ ] Circular references fail with clear error messaging.
-- [ ] Missing prompt assets raise `FileNotFoundError`.
-- [ ] Integration tests verify resolver behavior with real filesystem layouts.
+- [x] Tests verify `prompt_root` argument precedence over global override.
+- [x] Tests verify global override precedence over auto-discovery.
+- [x] Circular references fail with clear error messaging.
+- [x] Missing prompt assets raise `FileNotFoundError`.
+- [x] Integration tests verify resolver behavior with real filesystem layouts.
 
 Data flow:
 
