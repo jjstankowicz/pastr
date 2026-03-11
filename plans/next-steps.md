@@ -25,12 +25,14 @@ Deliverables:
 - [ ] Create package skeleton with `pyproject.toml` and `src/pastr/`.
 - [ ] Add explicit public exports in `pastr.__init__`.
 - [ ] Configure strict pyright and pytest for Python 3.12.
+- [ ] Configure pytest `integration` marker and split test directories (`tests/unit`, `tests/integration`).
 - [ ] Add README quick start for `load_prompt` and prompt directory configuration.
 
 Gates:
 
 - [ ] `uv run pyright` passes.
-- [ ] `uv run pytest -q` passes with at least one smoke test.
+- [ ] `uv run pytest -q tests/unit` passes.
+- [ ] `uv run pytest -q -m integration tests/integration` passes.
 - [ ] Package imports succeed from editable install.
 
 Data flow:
@@ -56,6 +58,7 @@ Gates:
 
 - [ ] Prompt-loading APIs are exported from `pastr.__init__`.
 - [ ] Unit tests pass for nested prompt expansion and code substitution.
+- [ ] Integration tests pass for end-to-end prompt loading from real prompt files.
 - [ ] Public API signatures match the project contract.
 - [ ] Prompt API behavior is stable.
 
@@ -87,6 +90,7 @@ Gates:
 - [ ] Tests verify global override precedence over auto-discovery.
 - [ ] Circular references fail with clear error messaging.
 - [ ] Missing prompt assets raise `FileNotFoundError`.
+- [ ] Integration tests verify resolver behavior with real filesystem layouts.
 
 Data flow:
 

@@ -69,6 +69,10 @@ Error handling requirements:
 ## Testing And Typing
 
 - Use pytest function tests and fixtures only.
+- Keep unit tests in `tests/unit/`.
+- Keep integration tests in `tests/integration/`.
+- Mark integration tests with `@pytest.mark.integration`.
+- Keep unit tests deterministic and offline by default.
 - Keep pyright clean at configured strictness.
 - Minimum release gate: test suite passes on Python 3.12.
 - Cover at least:
@@ -76,17 +80,16 @@ Error handling requirements:
   - `FROM_CODE` substitutions
   - missing prompt files
   - circular references
+- Include integration coverage for end-to-end prompt loading across real prompt files and resolution precedence.
 
 # Planning Workflow
 
 Planning is markdown-first and git-tracked.
 
 - Canonical queue file: `plans/next-steps.md`
-- Maintain:
-  - ordered `Priority` list for execution order
-  - checklist-style `Backlog` grouped by backlog tags
-- Optional standalone plan docs are allowed only as zoom-ins for a single backlog tag already listed in `plans/next-steps.md`.
-- Any active zoom-in plan must be linked from `plans/next-steps.md`.
+- Maintain ordered `Priority Queue` for execution order.
+- Maintain checklist-style `Backlog` grouped by backlog tags.
+- Each backlog tag maps to exactly one pull request.
 
 # Integration Notes
 
