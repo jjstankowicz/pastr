@@ -1,5 +1,6 @@
 """Unit tests for prompt loader behavior."""
 
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
@@ -8,8 +9,10 @@ from pastr import load_prompt, set_prompt_directory
 
 
 @pytest.fixture(autouse=True)
-def clear_prompt_directory_override() -> None:
-    """Reset global prompt directory state between tests."""
+def clear_prompt_directory_override() -> Iterator[None]:
+    """Reset global prompt directory state before and after each test."""
+    set_prompt_directory(None)
+    yield
     set_prompt_directory(None)
 
 

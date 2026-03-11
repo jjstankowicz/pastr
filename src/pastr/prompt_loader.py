@@ -134,20 +134,21 @@ def _resolve_prompt_path(prompt_root: Path, tag: str) -> Path:
 
 
 def _validate_prompt_tag(tag: str) -> str:
-    normalized = tag.strip()
-    if not normalized:
+    stripped = tag.strip()
+    if not stripped:
         raise ValueError("Invalid prompt tag: tag cannot be empty")
 
-    if normalized.startswith(("/", "\\")):
-        raise ValueError(f"Invalid prompt tag '{normalized}': absolute paths are not allowed")
+    if stripped.startswith(("/", "\\")):
+        raise ValueError(f"Invalid prompt tag '{stripped}': absolute paths are not allowed")
 
-    if re.match(r"^[A-Za-z]:[\\/]", normalized):
-        raise ValueError(f"Invalid prompt tag '{normalized}': absolute paths are not allowed")
+    if re.match(r"^[A-Za-z]:[\\/]", stripped):
+        raise ValueError(f"Invalid prompt tag '{stripped}': absolute paths are not allowed")
 
-    parts = normalized.replace("\\", "/").split("/")
+    normalized = stripped.replace("\\", "/")
+    parts = normalized.split("/")
     if any(part in {"", ".", ".."} for part in parts):
         raise ValueError(
-            f"Invalid prompt tag '{normalized}': relative traversal and empty path segments are not allowed"
+            f"Invalid prompt tag '{stripped}': relative traversal and empty path segments are not allowed"
         )
 
     return normalized
