@@ -19,7 +19,7 @@ def set_prompt_directory(path: Path | str | None) -> None:
     if path is None:
         _prompt_directory_override = None
         return
-    _prompt_directory_override = Path(path).expanduser()
+    _prompt_directory_override = Path(path).expanduser().resolve()
 
 
 def load_prompt_structure(tag: str, *, prompt_root: Path) -> str:
@@ -141,13 +141,14 @@ def _validate_prompt_tag(tag: str) -> str:
     if normalized.startswith(("/", "\\")):
         raise ValueError(f"Invalid prompt tag '{normalized}': absolute paths are not allowed")
 
-    if re.match(r"^[A-Za-z]:[\\/]", normalized):
+    if re.match(r"^[A-Za-z]:", normalized):
         raise ValueError(f"Invalid prompt tag '{normalized}': absolute paths are not allowed")
 
-    parts = normalized.replace("\\", "/").split("/")
+    slash_normalized = normalized.replace("\\", "/")
+    parts = slash_normalized.split("/")
     if any(part in {"", ".", ".."} for part in parts):
         raise ValueError(
             f"Invalid prompt tag '{normalized}': relative traversal and empty path segments are not allowed"
         )
 
-    return normalized
+    return slash_normalized

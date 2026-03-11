@@ -78,3 +78,27 @@ def test_falls_back_to_repo_root_pastr_directory(
     result = load_prompt("fallback")
 
     assert result == "pastr fallback"
+
+
+def test_set_prompt_directory_relative_path_is_stable_across_cwd_changes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Relative set_prompt_directory paths should resolve to an absolute root immediately."""
+    repo_root = tmp_path / "repo"
+    repo_root.mkdir()
+    (repo_root / ".git").mkdir()
+    prompts_dir = repo_root / "prompts"
+    prompts_dir.mkdir()
+    (prompts_dir / "stable.txt").write_text("stable", encoding="utf-8")
+
+    monkeypatch.chdir(repo_root)
+    set_prompt_directory("prompts")
+
+    other_dir = tmp_path / "other"
+    other_dir.mkdir()
+    monkeypatch.chdir(other_dir)
+
+    result = load_prompt("stable")
+
+    assert result == "stable"

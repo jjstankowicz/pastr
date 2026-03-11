@@ -103,9 +103,26 @@ def test_rejects_absolute_tag(tmp_path: Path) -> None:
         load_prompt("/etc/passwd", prompt_root=tmp_path)
 
 
+def test_rejects_windows_drive_relative_tag(tmp_path: Path) -> None:
+    """Top-level tags should reject drive-qualified Windows paths."""
+    with pytest.raises(ValueError, match="Invalid prompt tag"):
+        load_prompt("C:foo", prompt_root=tmp_path)
+
+
 def test_rejects_parent_traversal_in_nested_prompt_reference(tmp_path: Path) -> None:
     """FROM_PROMPT should reject parent-directory traversal tags."""
     (tmp_path / "main.txt").write_text("{{FROM_PROMPT:../secrets}}", encoding="utf-8")
 
     with pytest.raises(ValueError, match="Invalid prompt tag"):
         load_prompt("main", prompt_root=tmp_path)
+
+
+def test_load_prompt_normalizes_backslash_tag_separators(tmp_path: Path) -> None:
+    """Backslash separators in prompt tags should resolve consistently."""
+    nested_dir = tmp_path / "nested"
+    nested_dir.mkdir()
+    (nested_dir / "part.txt").write_text("inner", encoding="utf-8")
+
+    result = load_prompt(r"nested\part", prompt_root=tmp_path)
+
+    assert result == "inner"

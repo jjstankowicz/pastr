@@ -5,7 +5,11 @@ Prompt loading utilities.
 ## Install
 
 ```bash
-uv add pastr
+# From a local clone (editable install for development)
+uv add -e .
+
+# From Git (pin to a specific tag for consumers)
+uv add "pastr @ git+https://github.com/jjstankowicz/pastr.git@v0.1.0"
 ```
 
 ## Quick Start
