@@ -89,3 +89,23 @@ def test_circular_prompt_reference_raises_value_error(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="Circular prompt reference detected"):
         load_prompt("a", prompt_root=tmp_path)
+
+
+def test_rejects_parent_traversal_tag(tmp_path: Path) -> None:
+    """Top-level tags should reject parent-directory traversal."""
+    with pytest.raises(ValueError, match="Invalid prompt tag"):
+        load_prompt("../secrets", prompt_root=tmp_path)
+
+
+def test_rejects_absolute_tag(tmp_path: Path) -> None:
+    """Top-level tags should reject absolute filesystem paths."""
+    with pytest.raises(ValueError, match="Invalid prompt tag"):
+        load_prompt("/etc/passwd", prompt_root=tmp_path)
+
+
+def test_rejects_parent_traversal_in_nested_prompt_reference(tmp_path: Path) -> None:
+    """FROM_PROMPT should reject parent-directory traversal tags."""
+    (tmp_path / "main.txt").write_text("{{FROM_PROMPT:../secrets}}", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="Invalid prompt tag"):
+        load_prompt("main", prompt_root=tmp_path)

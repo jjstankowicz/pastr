@@ -61,19 +61,21 @@ def _load_prompt_structure_recursive(
     prompt_root: Path,
     active_tags: tuple[str, ...],
 ) -> str:
-    if tag in active_tags:
-        cycle = " -> ".join((*active_tags, tag))
+    validated_tag = _validate_prompt_tag(tag)
+
+    if validated_tag in active_tags:
+        cycle = " -> ".join((*active_tags, validated_tag))
         raise ValueError(f"Circular prompt reference detected: {cycle}")
 
-    prompt_path = _resolve_prompt_path(prompt_root, tag)
+    prompt_path = _resolve_prompt_path(prompt_root, validated_tag)
     prompt_text = prompt_path.read_text(encoding="utf-8")
 
     def include_replacement(match: re.Match[str]) -> str:
-        nested_tag = match.group(1).strip()
+        nested_tag = _validate_prompt_tag(match.group(1))
         return _load_prompt_structure_recursive(
             tag=nested_tag,
             prompt_root=prompt_root,
-            active_tags=(*active_tags, tag),
+            active_tags=(*active_tags, validated_tag),
         )
 
     return _PROMPT_INCLUDE_PATTERN.sub(include_replacement, prompt_text)
@@ -129,3 +131,23 @@ def _resolve_prompt_path(prompt_root: Path, tag: str) -> Path:
         f"Prompt file not found for tag '{tag}' under root '{prompt_root}'. "
         f"Tried '{direct}' and '{txt}'."
     )
+
+
+def _validate_prompt_tag(tag: str) -> str:
+    normalized = tag.strip()
+    if not normalized:
+        raise ValueError("Invalid prompt tag: tag cannot be empty")
+
+    if normalized.startswith(("/", "\\")):
+        raise ValueError(f"Invalid prompt tag '{normalized}': absolute paths are not allowed")
+
+    if re.match(r"^[A-Za-z]:[\\/]", normalized):
+        raise ValueError(f"Invalid prompt tag '{normalized}': absolute paths are not allowed")
+
+    parts = normalized.replace("\\", "/").split("/")
+    if any(part in {"", ".", ".."} for part in parts):
+        raise ValueError(
+            f"Invalid prompt tag '{normalized}': relative traversal and empty path segments are not allowed"
+        )
+
+    return normalized
