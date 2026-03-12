@@ -91,6 +91,30 @@ Planning is markdown-first and git-tracked.
 - Maintain checklist-style `Backlog` grouped by backlog tags.
 - Each backlog tag maps to exactly one pull request.
 
+# Pull Request Feedback Monitor
+
+Use one script for review monitoring:
+
+- `scripts/monitor_pr_feedback.sh`
+
+Behavior:
+
+- Watches a pull request for new commits and actionable feedback.
+- Filters out self-comments and Copilot issue-comment noise.
+- Exits on first detected update so follow-up actions can start immediately.
+
+Usage:
+
+```bash
+scripts/monitor_pr_feedback.sh 3 2>&1 | tee -a ~/claude.log
+```
+
+or, for the current checkout's pull request:
+
+```bash
+POLL_SECONDS=10 scripts/monitor_pr_feedback.sh 2>&1 | tee -a ~/claude.log
+```
+
 # Integration Notes
 
 - Consumers should depend on tagged releases of this repository (Git URL pin first, then Python Package Index later if desired).
