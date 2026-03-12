@@ -14,6 +14,7 @@ Rules:
 - [x] `implement-prompt-api-core`
 - [x] `harden-prompt-resolution`
 - [ ] `prepare-first-release`
+- [ ] `publish-to-pypi`
 - [ ] `design-xml-and-llm-utilities` (deferred)
 
 ## Backlog
@@ -119,6 +120,30 @@ Data flow:
 ```text
 (main branch release commit) -> [git tag v0.1.0] -> (versioned source snapshot)
 (versioned source snapshot) -> [uv add git+...@v0.1.0] -> (consumer environment with pinned dependency)
+```
+
+### `publish-to-pypi`
+
+Deliverables:
+
+- [ ] Build source distribution and wheel artifacts from tagged release commit.
+- [ ] Configure token-based publish workflow for PyPI.
+- [ ] Publish `pastr` release artifacts to PyPI.
+- [ ] Document post-publish install and upgrade commands for consumers.
+
+Gates:
+
+- [ ] `uv build` succeeds and produces both sdist and wheel.
+- [ ] PyPI publish succeeds for the tagged release version.
+- [ ] `uv add pastr==<version>` works in a clean environment.
+- [ ] Release notes and README install section are consistent with PyPI availability.
+
+Data flow:
+
+```text
+(tagged release commit) -> [uv build] -> (dist/*.tar.gz, dist/*.whl)
+(dist artifacts, pypi token) -> [trusted publish workflow] -> (pypi project release)
+(pypi release) -> [uv add pastr==<version>] -> (consumer environment with published package)
 ```
 
 ### `design-xml-and-llm-utilities`
