@@ -27,9 +27,10 @@ Pushing `v0.1.0` triggers the `Publish to PyPI` workflow.
 ## Post-publish verification
 
 ```bash
+version="0.1.0"
 tmp_dir="$(mktemp -d)"
 cd "${tmp_dir}"
 uv init --name pastr-pypi-install-check
-uv add pastr==0.1.0
+uv add "pastr==${version}"
 uv run python -c "from pastr import load_prompt, set_prompt_directory; assert load_prompt and set_prompt_directory"
 ```

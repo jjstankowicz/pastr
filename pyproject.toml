@@ -30,6 +30,9 @@ Issues = "https://github.com/jjstankowicz/pastr/issues"
 include = ["pastr*"]
 where = ["src"]
 
+[tool.setuptools.package-data]
+pastr = ["py.typed"]
+
 [tool.pytest.ini_options]
 addopts = [
   "--disable-warnings",
