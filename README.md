@@ -4,13 +4,19 @@ Prompt loading utilities.
 
 ## Install
 
-```bash
-# From a local clone (editable install for development)
-uv add -e .
+After the first PyPI release:
 
-# From Git (pin to a specific tag for consumers)
+```bash
+uv add pastr
+```
+
+Fallback before a package release is published:
+
+```bash
 uv add "pastr @ git+https://github.com/jjstankowicz/pastr.git@v0.1.0"
 ```
+
+Release steps are documented in `docs/pypi-release.md`.
 
 ## Quick Start
 

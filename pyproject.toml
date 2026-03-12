@@ -4,11 +4,27 @@ requires = ["setuptools>=69", "wheel"]
 
 [project]
 dependencies = []
-description = "Prompts Are STRings- Simple prompt loading with recursive includes and code replacement."
+description = "Prompt loading with recursive includes and code substitution."
 name = "pastr"
+license = "MIT"
+authors = [
+  { name = "James Stankowicz", email = "jj.stankowicz@gmail.com" },
+]
 readme = "README.md"
 requires-python = ">=3.12"
 version = "0.1.0"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/jjstankowicz/pastr"
+Repository = "https://github.com/jjstankowicz/pastr"
+Issues = "https://github.com/jjstankowicz/pastr/issues"
 
 [tool.setuptools.packages.find]
 include = ["pastr*"]
