@@ -4,8 +4,13 @@ This repository publishes releases to PyPI from GitHub Actions.
 
 ## One-time repository setup
 
-1. Create repository secret `PYPI_API_TOKEN` with a PyPI token that has publish permission for `pastr`.
-2. Keep the workflow environment name as `pypi` (used in `.github/workflows/publish-pypi.yml`).
+1. In PyPI, add a Trusted Publisher for this repository:
+   - owner: `jjstankowicz`
+   - repository: `pastr`
+   - workflow: `publish-pypi.yml`
+   - environment: `pypi`
+2. For first publish of a new project name, create a pending publisher entry in PyPI with the same fields.
+3. Keep the GitHub workflow environment name as `pypi` (used in `.github/workflows/publish-pypi.yml`).
 
 ## Release commands
 

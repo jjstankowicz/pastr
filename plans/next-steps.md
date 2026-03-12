@@ -105,7 +105,7 @@ Deliverables:
 
 - [x] Prepare `v0.1.0` changelog and release metadata.
 - [x] Build source distribution and wheel artifacts from tagged release commit.
-- [x] Configure token-based publish workflow for PyPI.
+- [x] Configure trusted publishing workflow for PyPI.
 - [ ] Publish `pastr` release artifacts to PyPI.
 - [x] Document post-publish install and upgrade commands for consumers in repository docs.
 
@@ -121,7 +121,7 @@ Data flow:
 
 ```text
 (tagged release commit) -> [uv build] -> (dist/*.tar.gz, dist/*.whl)
-(dist artifacts, pypi token) -> [trusted publish workflow] -> (pypi project release)
+(dist artifacts, github oidc token) -> [trusted publish workflow] -> (pypi project release)
 (pypi release) -> [uv add pastr==<version>] -> (consumer environment with published package)
 ```
 
